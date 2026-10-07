@@ -1,0 +1,91 @@
+<header class="topbar">
+  <div class="logo">
+    <span class="logo-mark" aria-hidden="true"><i class="bi bi-shield-shaded"></i></span>
+    <div>
+      <h1>CENTINELA</h1>
+      <p>Mesa de fraude en tiempo real</p>
+    </div>
+  </div>
+
+  <div class="status" [class.live]="running()" role="status">
+    <span class="pulse" aria-hidden="true"></span>
+    <span>{{ running() ? 'Canal en vivo' : 'Ingesta en pausa' }}</span>
+    <span class="mono clock">{{ ui.now() | clock }}</span>
+    @if (desk.mode === 'demo') {
+      <span class="mode" title="Todo corre en tu navegador; los datos quedan en localStorage"
+        >Demo</span
+      >
+    }
+  </div>
+
+  <div class="top-actions">
+    <button
+      type="button"
+      class="btn"
+      (click)="desk.dispatch({ type: 'toggleRun' })"
+      data-testid="toggle-run"
+    >
+      <i
+        class="bi"
+        [class.bi-pause-fill]="running()"
+        [class.bi-play-fill]="!running()"
+        aria-hidden="true"
+      ></i>
+      {{ running() ? 'Pausar' : 'Reanudar' }}
+    </button>
+    <button
+      type="button"
+      class="btn mono"
+      [class.on]="fast()"
+      [attr.aria-pressed]="fast()"
+      (click)="desk.dispatch({ type: 'toggleSpeed' })"
+      title="Velocidad de ingesta"
+    >
+      {{ fast() ? '4×' : '1×' }}
+    </button>
+    <button type="button" class="btn" (click)="ui.rulesOpen.set(true)" data-testid="open-rules">
+      <i class="bi bi-sliders" aria-hidden="true"></i>Reglas
+    </button>
+    <button
+      type="button"
+      class="icon-btn"
+      (click)="reset()"
+      aria-label="Reiniciar demo"
+      title="Reiniciar demo"
+    >
+      <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+    </button>
+  </div>
+</header>
+
+<main class="desk">
+  <app-kpis />
+  <app-pipeline />
+  <app-scenarios />
+  <p class="notice" role="status" aria-live="polite">{{ notice() }}</p>
+
+  <div class="tabs" role="tablist" aria-label="Vistas de la mesa">
+    @for (t of tabs; track t.id) {
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="ui.tab() === t.id"
+        [class.active]="ui.tab() === t.id"
+        (click)="ui.tab.set(t.id)"
+      >
+        {{ t.label }}
+        @if (t.id === 'alerts' && desk.openAlerts().length) {
+          <span class="count">{{ desk.openAlerts().length }}</span>
+        }
+      </button>
+    }
+  </div>
+
+  <div class="columns" [attr.data-tab]="ui.tab()">
+    <app-alerts class="col col-alerts" />
+    <app-feed class="col col-feed" />
+    <app-case-detail class="col col-case" />
+  </div>
+</main>
+
+<app-rules-drawer />
