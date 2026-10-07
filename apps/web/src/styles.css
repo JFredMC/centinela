@@ -20,6 +20,23 @@
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4f7fc;
+  --surface: #ffffff;
+  --raised: #eef2f9;
+  --line: #d9e1ee;
+  --text: #0b1220;
+  --muted: #5a6b85;
+  --accent: #0891b2;
+  --accent-2: #6366f1;
+  --ok: #059669;
+  --warn: #b45309;
+  --bad: #dc2626;
+  --on-accent: #ffffff;
+  --shadow: 0 10px 30px rgb(15 23 42 / 0.12);
+}
+
 *,
 *::before,
 *::after {
@@ -181,14 +198,35 @@ button {
   gap: 10px;
 }
 .logo-mark {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 38px;
   height: 38px;
-  border-radius: 11px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: var(--on-accent);
-  font-size: 19px;
+}
+
+/* Firma JFredDev (discreta) */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.brand strong {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  color: var(--text);
+}
+.brand:hover {
+  color: var(--text);
+  border-color: var(--accent);
 }
 .logo h1 {
   font-size: 16px;
@@ -342,7 +380,6 @@ button {
   font-size: 12px;
   color: var(--muted);
   background: var(--raised);
-  transition: background 0.12s;
 }
 .stages .dot {
   width: 7px;
@@ -625,7 +662,7 @@ button {
 .scrim {
   position: fixed;
   inset: 0;
-  background: rgb(2 6 14 / 0.55);
+  background: color-mix(in srgb, var(--bg) 40%, rgb(2 6 14 / 0.6));
   z-index: 40;
 }
 .drawer {
@@ -769,6 +806,12 @@ input[type='checkbox'] {
   .top-actions {
     margin-left: 0;
     width: 100%;
+  }
+  .brand span {
+    display: none;
+  }
+  .brand {
+    padding: 0 9px;
   }
   .top-actions .btn {
     flex: 1;

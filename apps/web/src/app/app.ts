@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DeskStore } from './core/desk-store';
+import { ThemeStore } from './core/theme.store';
 import { UiStore, type MobileTab } from './core/ui.store';
 import { AlertsComponent } from './features/alerts';
 import { CaseDetailComponent } from './features/case-detail';
@@ -28,6 +29,7 @@ import { ClockPipe } from './shared/pipes';
 export class App {
   protected readonly desk = inject(DeskStore);
   protected readonly ui = inject(UiStore);
+  protected readonly theme = inject(ThemeStore);
   protected readonly running = computed(() => this.desk.state()?.running ?? false);
   protected readonly fast = computed(() => this.desk.state()?.speed === 'fast');
   protected readonly notice = computed(() => this.desk.state()?.notice?.text ?? '');
