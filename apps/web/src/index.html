@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <title>CENTINELA · Mesa de fraude en tiempo real</title>
@@ -10,15 +10,41 @@
       content="Detección de fraude en tiempo real: cola, motor de reglas con puntaje de riesgo y alertas para el analista."
     />
     <meta name="theme-color" content="#070d18" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <meta name="author" content="JFredDev" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" href="brand/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="JFredDev" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content="CENTINELA · Detección de fraude en tiempo real" />
+    <meta
+      property="og:description"
+      content="Cola, motor de reglas con puntaje de riesgo y alertas en vivo para el analista. Demo interactiva hecha por JFredDev."
+    />
+    <meta property="og:url" content="https://jfredmc.github.io/centinela/" />
+    <meta property="og:image" content="https://jfredmc.github.io/centinela/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CENTINELA · Detección de fraude en tiempo real" />
+    <meta name="twitter:image" content="https://jfredmc.github.io/centinela/og.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Sora:wght@600;700&display=swap"
     />
+    <script>
+      try {
+        var t = localStorage.getItem('centinela:theme');
+        if (t !== 'light' && t !== 'dark')
+          t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <app-root></app-root>
+    <noscript>CENTINELA necesita JavaScript para funcionar.</noscript>
   </body>
 </html>

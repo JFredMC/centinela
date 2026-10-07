@@ -1,6 +1,6 @@
 <header class="topbar">
   <div class="logo">
-    <span class="logo-mark" aria-hidden="true"><i class="bi bi-shield-shaded"></i></span>
+    <img class="logo-mark" src="favicon.svg" alt="" width="38" height="38" />
     <div>
       <h1>CENTINELA</h1>
       <p>Mesa de fraude en tiempo real</p>
@@ -19,6 +19,18 @@
   </div>
 
   <div class="top-actions">
+    <a
+      class="brand"
+      href="https://jfredmc.github.io/portfolio/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Hecho por JFredDev: ver portafolio (se abre en otra pestaña)"
+      title="Hecho por JFredDev"
+      data-testid="brand"
+    >
+      <img src="brand/jfreddev.svg" alt="" width="22" height="22" />
+      <span>por <strong>JFredDev</strong></span>
+    </a>
     <button
       type="button"
       class="btn"
@@ -45,6 +57,23 @@
     </button>
     <button type="button" class="btn" (click)="ui.rulesOpen.set(true)" data-testid="open-rules">
       <i class="bi bi-sliders" aria-hidden="true"></i>Reglas
+    </button>
+    <button
+      type="button"
+      class="icon-btn"
+      (click)="theme.toggle()"
+      [attr.aria-label]="
+        theme.theme() === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'
+      "
+      title="Cambiar tema"
+      data-testid="theme"
+    >
+      <i
+        class="bi"
+        [class.bi-sun]="theme.theme() === 'dark'"
+        [class.bi-moon-stars]="theme.theme() === 'light'"
+        aria-hidden="true"
+      ></i>
     </button>
     <button
       type="button"

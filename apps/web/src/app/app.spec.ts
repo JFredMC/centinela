@@ -54,3 +54,37 @@ describe('App (modo demo)', () => {
     expect(el.querySelectorAll('.rules li').length).toBe(10);
   });
 });
+
+describe('Marca y tema', () => {
+  beforeEach(async () => {
+    localStorage.clear();
+    await TestBed.configureTestingModule({
+      imports: [App],
+      providers: appConfig.providers,
+    }).compileComponents();
+  });
+
+  it('firma JFredDev al portafolio en otra pestaña', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const a = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>(
+      '[data-testid="brand"]',
+    );
+    expect(a?.href).toBe('https://jfredmc.github.io/portfolio/');
+    expect(a?.target).toBe('_blank');
+    expect(a?.rel).toContain('noopener');
+  });
+
+  it('alterna tema claro/oscuro y lo recuerda', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const btn = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
+      '[data-testid="theme"]',
+    );
+    const start = document.documentElement.dataset['theme'];
+    btn?.click();
+    await fixture.whenStable();
+    expect(document.documentElement.dataset['theme']).not.toBe(start);
+    expect(localStorage.getItem('centinela:theme')).toBe(document.documentElement.dataset['theme']);
+  });
+});
