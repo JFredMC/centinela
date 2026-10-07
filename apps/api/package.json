@@ -1,0 +1,47 @@
+{
+  "name": "@centinela/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend de CENTINELA: NestJS 11, cola BullMQ sobre Redis y alertas en vivo por Socket.IO.",
+  "license": "MIT",
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "dev": "nest start --watch",
+    "start:prod": "node dist/main.js",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest",
+    "test:e2e": "jest --config test/jest-e2e.config.js --runInBand"
+  },
+  "dependencies": {
+    "@centinela/fraud-engine": "workspace:*",
+    "@nestjs/bullmq": "^11.0.5",
+    "@nestjs/common": "^11.2.7",
+    "@nestjs/core": "^11.2.7",
+    "@nestjs/platform-express": "^11.2.7",
+    "@nestjs/platform-socket.io": "^11.2.7",
+    "@nestjs/websockets": "^11.2.7",
+    "bullmq": "^5.81.5",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "~7.8.2",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@nestjs/cli": "^11.0.24",
+    "@nestjs/schematics": "^11.1.0",
+    "@nestjs/testing": "^11.2.7",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.20.5",
+    "@types/supertest": "^7.2.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "jest": "^30.5.2",
+    "socket.io-client": "^4.8.4",
+    "supertest": "^7.3.1",
+    "ts-jest": "^29.4.14",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.1"
+  }
+}

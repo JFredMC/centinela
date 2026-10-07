@@ -6,22 +6,11 @@ import {
   setThresholds,
   toggleRun,
   toggleSpeed,
-  type AnalystAction,
   type DeskState,
-  type RuleConfig,
-  type RuleId,
-  type ScenarioKind,
+  type DeskAction,
 } from '@centinela/fraud-engine';
 
-/** Acciones de la mesa. Son datos planos para poder cruzar al Web Worker o al socket. */
-export type DeskAction =
-  | { type: 'inject'; kind: ScenarioKind }
-  | { type: 'resolve'; id: string; action: AnalystAction }
-  | { type: 'setRule'; id: RuleId; patch: Partial<Pick<RuleConfig, 'weight' | 'enabled'>> }
-  | { type: 'setThresholds'; reviewAt?: number; blockAt?: number }
-  | { type: 'resetPolicy' }
-  | { type: 'toggleRun' }
-  | { type: 'toggleSpeed' };
+export type { DeskAction } from '@centinela/fraud-engine';
 
 export function applyAction(s: DeskState, a: DeskAction, now: number): DeskState {
   switch (a.type) {
