@@ -11,10 +11,33 @@
     <span class="pulse" aria-hidden="true"></span>
     <span>{{ running() ? 'Canal en vivo' : 'Ingesta en pausa' }}</span>
     <span class="mono clock">{{ ui.now() | clock }}</span>
-    @if (desk.mode === 'demo') {
+    @if (hasApi) {
+      <span class="mode-switch" role="group" aria-label="Fuente de datos">
+        <button
+          type="button"
+          [class.on]="desk.mode === 'demo'"
+          [attr.aria-pressed]="desk.mode === 'demo'"
+          (click)="desk.mode !== 'demo' && switchMode('demo')"
+        >
+          Demo
+        </button>
+        <button
+          type="button"
+          [class.on]="desk.mode === 'api'"
+          [attr.aria-pressed]="desk.mode === 'api'"
+          (click)="desk.mode !== 'api' && switchMode('api')"
+          data-testid="mode-api"
+        >
+          API
+        </button>
+      </span>
+    } @else {
       <span class="mode" title="Todo corre en tu navegador; los datos quedan en localStorage"
         >Demo</span
       >
+    }
+    @if (desk.mode === 'api' && !desk.connected()) {
+      <span class="offline">Conectando con la API…</span>
     }
   </div>
 
@@ -88,6 +111,9 @@
 </header>
 
 <main class="desk">
+  @if (!desk.state()) {
+    <p class="empty">Esperando el estado de la mesa…</p>
+  }
   <app-kpis />
   <app-pipeline />
   <app-scenarios />

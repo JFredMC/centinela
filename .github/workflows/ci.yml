@@ -34,3 +34,55 @@ jobs:
       - run: pnpm test
       - run: pnpm build
       - run: pnpm --filter @centinela/web build:pages
+
+  api-e2e:
+    name: API e2e (Redis 7, BullMQ, Socket.IO)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      REDIS_URL: redis://localhost:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --filter @centinela/api...
+      - run: pnpm --filter @centinela/fraud-engine build
+      - run: pnpm --filter @centinela/api test:e2e
+
+  docker:
+    name: Docker Compose smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and start
+        run: |
+          cp .env.example .env
+          docker compose up -d --build --wait --wait-timeout 180
+      - name: Smoke test
+        run: |
+          curl -fsS http://localhost:3000/api/health | jq -e '.redis == "up"'
+          curl -fsS http://localhost:3000/api/desk | jq -e '.feed | length >= 14'
+          curl -fsS -X POST http://localhost:3000/api/desk/actions -H 'Content-Type: application/json' \
+            -d '{"type":"inject","kind":"cripto"}'
+          sleep 4
+          curl -fsS http://localhost:3000/api/desk | jq -e '[.feed[] | select(.mcc == "6051" and .decision == "block")] | length >= 1'
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
